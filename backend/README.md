@@ -3,6 +3,7 @@
 ## Database Schema Design
 
 `<insert database schema design here>`
+![air bnb schema](https://user-images.githubusercontent.com/104230573/202278918-ffcab602-3ec5-483f-a325-6ac0afab3361.png)
 
 ## API Documentation
 
