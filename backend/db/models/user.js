@@ -8,8 +8,8 @@ const { Model, Validator } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const { id, username, email } = this; // context will be the User instance
-      return { id, username, email };
+      const { id, firstName, lastName, username, email } = this; //user instance
+      return { id, firstName, lastName, username, email }
     }
 
     validatePassword(password) {
@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({ username, email, password }) {
+    static async signup({ firstName, lastName, username, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
         firstName,
@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
     static associate(models) {
-      User.hasMany(models.Spot, { foreignKey: 'ownerId' });
+      User.hasMany(models.Spot, { foreignKey: 'ownerId', as: 'Owner' })
       User.hasMany(models.Booking, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
       User.hasMany(models.Review, { foreignKey: 'userId' })
 
@@ -68,29 +68,29 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   len: [4, 30],
-      //   isNotEmail(value) {
-      //     if (Validator.isEmail(value)) {
-      //       throw new Error("Cannot be an email.");
-      //     }
-      //   }
-      // }
+      validate: {
+        len: [4, 30],
+        isNotEmail(value) {
+          if (Validator.isEmail(value)) {
+            throw new Error("Cannot be an email.");
+          }
+        }
+      }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   len: [3, 256],
-      //   isEmail: true
-      // }
+      validate: {
+        len: [3, 256],
+        isEmail: true
+      }
     },
     hashedPassword: {
       type: DataTypes.STRING.BINARY,
       allowNull: false,
-      // validate: {
-      //   len: [60, 60]
-      // }
+      validate: {
+        len: [60, 60]
+      }
     },
   }, {
     sequelize,
@@ -100,14 +100,14 @@ module.exports = (sequelize, DataTypes) => {
         exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt']
       }
     },
-      scopes: {
-        currentUser: {
-          attributes: { exclude: ['hashedPassword', 'createdAt', 'updatedAt'] }
-        },
-        loginUser: {
-          attributes: {}
-        }
+    scopes: {
+      currentUser: {
+        attributes: { exclude: ['hashedPassword', 'createdAt', 'updatedAt'] }
+      },
+      loginUser: {
+        attributes: {}
       }
-});
+    }
+  });
   return User;
 };

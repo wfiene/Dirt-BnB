@@ -4,10 +4,11 @@ const express = require('express');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
+const router = express.Router();
+
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const router = express.Router();
 
 const validateSignup = [
     check('email')
@@ -33,8 +34,14 @@ router.post(
     '/',
     validateSignup,
     async (req, res) => {
-      const { email, password, username } = req.body;
-      const user = await User.signup({ email, username, password });
+      const { firstName, lastName, username, email, password } = req.body;
+      const user = await User.signup({
+        firstName,
+        lastName,
+        email,
+        username,
+        password,
+      });
   
       await setTokenCookie(res, user);
   
