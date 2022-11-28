@@ -24,42 +24,56 @@ if (!isProduction) {
 
 // helmet helps set a variety of headers to better secure your app
 app.use(
-  helmet.crossOriginResourcePolicy({ 
-    policy: "cross-origin" 
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
   })
-  );
-  
-  // Set the _csrf token and create req.csrfToken method
-  app.use(
-    csurf({
-      cookie: {
-        secure: isProduction,
-        sameSite: isProduction && "Lax",
-        httpOnly: true
-      }
-    })
-    );
-    
-    // backend/app.js
-    const routes = require('./routes');
-    app.use(routes); // Connect all the routes
-    
-    // Catch unhandled requests and forward to error handler.
-    app.use((_req, _res, next) => {
-      const err = new Error("The requested resource couldn't be found.");
-      err.title = "Resource Not Found";
-      err.errors = ["The requested resource couldn't be found."];
+);
+
+// Set the _csrf token and create req.csrfToken method
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true
+    }
+  })
+);
+
+// backend/app.js
+const routes = require('./routes');
+app.use(routes); // Connect all the routes
+
+// Catch unhandled requests and forward to error handler.
+app.use((_req, _res, next) => {
+  const err = new Error("The requested resource couldn't be found.");
+  err.title = "Resource Not Found";
+  err.errors = ["The requested resource couldn't be found."];
   err.status = 404;
   next(err);
 });
 
 // Process sequelize errors
 const { ValidationError } = require('sequelize');
+const { UniqueConstraintError } = require('sequelize');
+
+
 app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
     err.errors = err.errors.map((e) => e.message);
     err.title = 'Validation error';
+  }
+  next(err);
+});
+
+app.use((err, _req, _res, next) => {
+  // check if error is a Sequelize error:
+  if (err instanceof UniqueConstraintError) {
+
+    err.title = 'Validation error';
+    err.message = 'Signup validation error'//signup
+    err.status = 403
   }
   next(err);
 });
