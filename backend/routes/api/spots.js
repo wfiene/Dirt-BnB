@@ -112,7 +112,7 @@ router.get("/current", requireAuth, async (req, res) => {
         },
         attributes: ["url"],
       })
-    ).url;
+    )?.url;
 
     const reviewRating = (allSpots[i].dataValues.avgRating = (
       await Review.findOne({
