@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
-import * as sessionActions from '../../store/session';
-import OpenModalMenuItem from './OpenModalMenuItem';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import * as sessionActions from "../../store/session";
+import "./Navigation.css";
 
-function ProfileButton({ user }) {
+function ProfileButton({ user, setLogin, setShowModal, setCreateSpotModal }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
-
+  const history = useHistory();
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
@@ -18,57 +16,100 @@ function ProfileButton({ user }) {
   useEffect(() => {
     if (!showMenu) return;
 
-    const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
+    const closeMenu = () => {
+      setShowMenu(false);
     };
 
-    document.addEventListener('click', closeMenu);
+    document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const closeMenu = () => setShowMenu(false);
-
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
-    closeMenu();
+    history.push('/')
+    // alert('Log Out Successful')
   };
-
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-          </>
-        ) : (
-          <>
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
-          </>
+      <div className='menuDiv'>
+        {user && (
+          <button
+            className='createButton'
+            onClick={() => {
+              setCreateSpotModal(true);
+            }}
+          >
+            Create A Spot
+          </button>
         )}
-      </ul>
+        <button
+          className='menu'
+          onClick={openMenu}
+        >
+          <i
+            className='fa fa-user circle'
+            id='user'
+          ></i>
+        </button>
+      </div>
+
+      {showMenu &&
+        (user ? (
+          <ul className='profile-dropdown'>
+            <div>{user.username}</div>
+            <div>{user.email}</div>
+            <div className='buttonDiv'>
+              {/* <button
+                className='createButton'
+                onClick={() => {
+                  setCreateSpotModal(true);
+                }}
+              >
+                Become a Host
+              </button> */}
+              {/* <button onClick={() => {
+              history.push(`/spots/current`)
+             }}>User's Spot's</button> */}
+              {/* </div> */}
+              {/* <div> */}
+              <button
+                className='logout'
+              onClick={ logout }
+              >
+                Log Out
+              </button>
+            </div>
+          </ul>
+        ) : (
+          <div className='logAndsignIn'>
+            <div id="logintext">Log In/Sign Up</div>
+            <div>
+              <button
+                id='login'
+                onClick={() => {
+                  setLogin(true);
+                  setShowModal(true);
+
+                }}
+              >
+                Log In
+              </button>
+
+              <button
+                id='signup'
+                onClick={() => {
+                  setLogin(false);
+                  setShowModal(true);
+                }}
+              >
+                Sign Up
+              </button>
+            </div>
+          </div>
+        ))}
     </>
   );
 }

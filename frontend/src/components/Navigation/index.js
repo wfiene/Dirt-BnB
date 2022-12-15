@@ -1,23 +1,74 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
-import './Navigation.css';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProfileButton from "./ProfileButton";
+import SignupForm from "../SignupFormModal/SignupForm";
+import { Modal } from "../../context/Modal";
+import LoginForm from "../LoginFormModal/LoginForm";
+import AddSpot from "../addSpot/addSpot";
+import "./Navigation.css";
 
-function Navigation({ isLoaded }){
-  const sessionUser = useSelector(state => state.session.user);
+function Navigation({ isLoaded }) {
+  const sessionUser = useSelector((state) => state.session.user);
+  const [showModal, setShowModal] = useState(false);
+  const [createSpotModal, setCreateSpotModal] = useState(false)
+  const [login, setLogin] = useState(true);
+  let sessionLinks;
+  if (sessionUser) {
+    sessionLinks = <ProfileButton user={sessionUser} />;
+  }
+  // else {
+  //   sessionLinks = (
+  //     <>
+  //       <LoginFormModal />
+  //     </>
+  //   );
+  // }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
-      </li>
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
-    </ul>
+    <>
+      <div className='navigationContainer'>
+        <div className='navigation'>
+          <div className='homeLogo'>
+            <NavLink
+              exact
+              to='/'
+            >
+              <img
+                
+              />
+            </NavLink>
+          </div>
+          <div>
+            {isLoaded && (
+              <ProfileButton
+                user={sessionUser}
+                setLogin={setLogin}
+                setShowModal={setShowModal}
+                setCreateSpotModal={setCreateSpotModal}
+              />
+            )}
+          </div>
+        </div>
+        {showModal && (
+          <Modal onClose={() => setShowModal(false)}>
+            {login ? (
+              <LoginForm setShowModal={setShowModal} />
+            ) : (
+              <SignupForm setShowModal={setShowModal} />
+            )}
+          </Modal>
+        )}
+        {createSpotModal && (
+          <Modal onClose={() => setCreateSpotModal(false)}>
+            {sessionUser &&
+            <AddSpot setCreateSpotModal={setCreateSpotModal} setShowModal={setShowModal}/>
+            }
+          </Modal>
+        )}
+
+      </div>
+    </>
   );
 }
 

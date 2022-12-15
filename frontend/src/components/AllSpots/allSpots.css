@@ -1,0 +1,60 @@
+.outerSpotContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  margin-bottom: 5%;
+  margin-top: 7%;
+}
+
+.spotCard {
+  display: flex;
+  margin: 45px 20px;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 15em;
+  width: 15em;
+  border-radius: 15px;
+}
+
+.allSpotscardinfo {
+  height: 100%;
+  width: 15em;
+}
+
+.spotImg {
+  height: 15em;
+  width: 15em;
+  border-radius: 15px;
+}
+
+/* .allSpotscardinfo {
+  display: flex;
+  position: static;
+  flex-direction: column;
+  align-self: start;
+  margin: 10px;
+  color: black;
+
+}
+
+.cityState {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.price {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#starRating {
+  display: flex;
+  font-size: 11px;
+}
+
+#starIcon {
+  margin-right: 2%;
+} */
