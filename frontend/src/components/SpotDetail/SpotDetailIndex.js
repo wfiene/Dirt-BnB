@@ -48,7 +48,7 @@ const SpotDetailIndex = () => {
           </div>
           <div id="details">
             <div id="detail-title">
-            <div><h2 >Property Hosted By {spotDetail.Owner.firstName}</h2></div>
+            {spotDetail.Owner && (<div><h2 >Property Hosted By {spotDetail.Owner.firstName}</h2></div>)}
                 <div id='night'>
                 <div className="spot-detail-price">${spotDetail.price} </div> <div>/night</div>
                 </div>
