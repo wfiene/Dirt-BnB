@@ -1,4 +1,3 @@
-// backend/routes/index.js
 const express = require('express');
 const router = express.Router();
 const apiRouter = require('./api');
@@ -38,7 +37,3 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = router;
-
-
-
-
