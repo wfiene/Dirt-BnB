@@ -1,6 +1,8 @@
 'use strict';
 const bcrypt = require("bcryptjs");
 
+const { User, Booking, Spot, ReviewImage, Review, SpotImage } = require('../models')
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
@@ -15,42 +17,41 @@ module.exports = {
         email: 'demo@user.io',
         username: 'Demo-lition',
         hashedPassword: bcrypt.hashSync('password'),
-        firstName: 'fname1',
-        lastName: 'lname1'
+        firstName: 'Coolio',
+        lastName: 'Ivey'
       },
       {
         email: 'user1@user.io',
         username: 'FakeUser1',
         hashedPassword: bcrypt.hashSync('password2'),
-        firstName: 'fname2',
-        lastName: 'lname2'
+        firstName: 'Morticia',
+        lastName: 'Adams'
       },
       {
         email: 'user2@user.io',
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync('password3'),
-        firstName: 'fname3',
-        lastName: 'lname3'
+        firstName: 'Sherlock',
+        lastName: 'Holmes'
       },
       {
         email: 'user3@user.io',
         username: 'FakeUser3',
         hashedPassword: bcrypt.hashSync('password4'),
-        firstName: 'fname4',
-        lastName: 'lname4'
+        firstName: 'Earl',
+        lastName: 'Hickey'
       },
       {
         email: 'user4@user.io',
         username: 'FakeUser4',
         hashedPassword: bcrypt.hashSync('password5'),
-        firstName: 'fname5',
-        lastName: 'lname5'
+        firstName: 'Homer',
+        lastName: 'Simpson'
       }
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2', 'FakeUser3','FakeUser4'] }

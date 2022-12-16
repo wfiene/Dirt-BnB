@@ -1,10 +1,6 @@
 'use strict';
-
-const bcrypt = require('bcryptjs');
-// const { Model, Validator } = require('sequelize');
-
 const {
-  Model, Validator
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
@@ -15,56 +11,96 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Spot.belongsTo(models.User, {foreignKey: 'ownerId', as: 'Owner'})
-      Spot.hasMany(models.Booking, {foreignKey: 'spotId', onDelete: 'CASCADE', hooks: true})
-      Spot.hasMany(models.SpotImage, {foreignKey: 'spotId'})
-      Spot.hasMany(models.Review, {foreignKey: 'spotId'})
+      Spot.hasMany(models.SpotImage, {foreignKey: 'spotId', onDelete: 'CASCADE'})
+
+      Spot.belongsTo(models.User, {foreignKey: 'ownerId', as: 'Owner', onDelete: 'CASCADE'});
+
+      Spot.belongsToMany(models.User, {
+        through: models.Booking,
+        foreignKey: 'spotId',
+        otherKey: 'userId',
+        onDelete: 'CASCADE'
+      });
+
+      Spot.belongsToMany(models.User, {
+        through: models.Review,
+        foreignKey: 'spotId',
+        otherKey: 'userId'
+      });
+      // Spot.belongsTo(models.User, { foreignKey: 'ownerId', as: 'Owner' });
+      // Spot.hasMany(models.Booking, { foreignKey: 'spotId', onDelete: 'CASCADE' });
+      // Spot.hasMany(models.Review, { foreignKey: 'spotId', onDelete: 'CASCADE' });
+      // Spot.hasMany(models.SpotImage, { foreignKey: 'spotId', onDelete: 'CASCADE'});
+
+
     }
   }
   Spot.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+      references: {model: 'Users', key: 'id'},
+      onDelete: 'CASCADE'
+    },
     ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true
+      validate: {
+        isNumeric: true
+      }
     },
-    address:{ 
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      // validate: {
+      //   isAlpha: true
+      // }
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      // validate: {
+      //   isAlpha: true,
+      // }
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      // validate: {
+      //   isAlpha: true
+      // }
     },
     lat: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-      unique: true
+      type: DataTypes.DECIMAL(11,7),
+      allowNull: true,
     },
     lng: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-      unique: true
+      type: DataTypes.DECIMAL(11,7),
+      allowNull: true,
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+      validate: {
+        len: [0,50]
+      }
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     price: {
-      type: DataTypes.DECIMAL,
-      allowNull: false
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: false,
+      validate: {
+        min: 0
+      }
     },
   }, {
     sequelize,

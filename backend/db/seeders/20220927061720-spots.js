@@ -1,15 +1,25 @@
 'use strict';
 
+const { User, Booking, Spot, ReviewImage, Review, SpotImage } = require('../models')
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 options.tableName = "Spots"
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert(options, [
+    /**
+     * Add seed commands here.
+     *
+     * Example:
+     * await queryInterface.bulkInsert('People', [{
+     *   name: 'John Doe',
+     *   isBetaMember: false
+     * }], {});
+    */
+     await queryInterface.bulkInsert(options, [
       {
         ownerId:'1',
         address:'1963-2022',
@@ -18,7 +28,7 @@ module.exports = {
         country: 'USA',
         lat: 33.8958,
         lng: 118.2201,
-        name: 'Coolio',
+        name: 'Coolios House',
         description: 'A gangsters paradise',
         price: 300
       },
@@ -42,7 +52,7 @@ module.exports = {
         country: 'England',
         lat: 51.5072,
         lng: 0.1276,
-        name: 'Sherlock',
+        name: 'Sherlock Residence',
         description: 'A most intriguing residence',
         price: 199
       },
@@ -66,7 +76,7 @@ module.exports = {
         country: 'USA',
         lat: 90.00,
         lng: 135.00,
-        name: 'Simpsons',
+        name: 'Simpsons House',
         description: 'Regular suburban house',
         price: 120
       },
@@ -74,6 +84,12 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete(options, {});
+    /**
+     * Add commands to revert seed here.
+     *
+     * Example:
+     * await queryInterface.bulkDelete('People', null, {});
+     */
+     await queryInterface.bulkDelete(options, null, {});
   }
 };

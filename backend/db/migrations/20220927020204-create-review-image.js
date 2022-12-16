@@ -1,29 +1,27 @@
 'use strict';
+const { DataTypes } = require('sequelize');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') { //new format
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Reviews', {
+    await queryInterface.createTable('ReviewImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      spotId: {
-        type: Sequelize.INTEGER
+      reviewId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {model: 'Reviews', key: 'id'},
+        onDelete: 'CASCADE'
       },
-      userId: {
-        type: Sequelize.INTEGER
-      },
-      review: {
+      url: {
         type: Sequelize.STRING
-      },
-      stars: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -38,7 +36,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Reviews"
+    options.tableName = "ReviewImages"
     await queryInterface.dropTable(options);
   }
 };

@@ -1,3 +1,4 @@
+// backend/config/database.js
 const config = require('./index');
 
 module.exports = {
@@ -17,9 +18,6 @@ module.exports = {
         require: true,
         rejectUnauthorized: false
       }
-    },
-    define: {
-      schema: process.env.SCHEMA
     }
   }
 };

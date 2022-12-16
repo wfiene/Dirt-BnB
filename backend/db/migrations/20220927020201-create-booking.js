@@ -1,13 +1,13 @@
 'use strict';
+const { DataTypes } = require('sequelize');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') { //new format
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('SpotImages', {
+    await queryInterface.createTable('Bookings', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,15 +16,23 @@ module.exports = {
       },
       spotId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {model: 'Spots', key: 'id'},
+        onDelete: 'CASCADE'
       },
-      url: {
-        type: Sequelize.STRING,
-        allowNull: false
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {model: 'Users', key: 'id'},
+        onDelete: 'CASCADE'
       },
-      preview: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+      startDate: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      endDate: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -37,9 +45,15 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
+    // await queryInterface.addIndex(
+    //   'Bookings',
+    //   ['spotId', 'startDate'],
+    //   ['spotId', 'endDate'],
+    //   {unique: true}
+    // )
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "SpotImages"
+    options.tableName = "Bookings"
     await queryInterface.dropTable(options);
   }
 };

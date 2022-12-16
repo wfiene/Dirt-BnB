@@ -1,33 +1,40 @@
-'use strict';
+"use strict";
+const { DataTypes } = require('sequelize');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') { //new format
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
+  async up (queryInterface, Sequelize) {
+    return queryInterface.createTable("Users", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      spotId: {
-        type: Sequelize.INTEGER,
+      firstName: {
+        type: Sequelize.STRING,
         allowNull: false
       },
-      userId: {
-        type: Sequelize.INTEGER,
+      lastName: {
+        type: Sequelize.STRING,
         allowNull: false
       },
-      startDate: {
-        type: Sequelize.DATE,
+      username: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+        unique: true
+      },
+      hashedPassword: {
+        type: Sequelize.STRING.BINARY,
         allowNull: false
       },
-      endDate: {
-        type: Sequelize.DATE,
-        allowNull: false
+      email: {
+        type: Sequelize.STRING(256),
+        allowNull: false,
+        unique: true
       },
       createdAt: {
         allowNull: false,
@@ -41,8 +48,8 @@ module.exports = {
       }
     }, options);
   },
-  async down(queryInterface, Sequelize) {
-    options.tableName = "Bookings"
-    await queryInterface.dropTable(options);
+  async down (queryInterface, Sequelize) {
+    options.tableName = "Users"
+    return queryInterface.dropTable(options);
   }
 };

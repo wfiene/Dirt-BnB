@@ -1,177 +1,76 @@
-const express = require("express");
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const {
-  SpotImage,
-  Spot,
-  User,
-  Review,
-  sequelize,
-  ReviewImage,
-  Booking,
-} = require("../../db/models");
+const express = require('express')
 const router = express.Router();
-const { check } = require("express-validator");
-const { handleValidationErrors } = require("../../utils/validation");
-const { Op } = require("sequelize");
+const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { User, Spot, SpotImage, Booking, Review, ReviewImage } = require('../../db/models')
 
-//Get all of the Current User's Bookings
-
-router.get("/current", requireAuth, async (req, res) => {
-  const userId = req.user.id;
-  const userBookings = await Booking.findAll({
+// Get all of the Current User's Bookings
+router.get('/current', requireAuth, async(req, res) => {
+  const currentBookings = await Booking.findAll({
     where: {
-      userId: userId,
+      userId: req.user.id
     },
-    include: {
+    include: [{
       model: Spot,
-    },
-  });
-  return res.json({ Bookings: userBookings });
+      attributes: {exclude: ['description', 'createdAt', 'updatedAt']}
+    }]
+  })
+  let result = []
+  for (let boks of currentBookings) {
+    boks = boks.toJSON()
+    const img = await SpotImage.findByPk(boks.spotId, {
+      where: {
+        preview: true,
+      },
+      attributes: ['url'],
+    })
+    if (img) {
+      boks.Spot.previewImage = img.url
+    }
+    result.push(boks)
+  }
+  res.status(200).json({'Bookings': result})
+})
+
+// Update and return an existing booking.
+router.put('/:bookingId', requireAuth, async(req, res) => {
+  const {startDate, endDate} = req.body;
+  const booking = await Booking.findByPk(req.params.bookingId);
+  
+  if (!booking) {
+   return res.status(404).json({
+      "message": "Booking couldn't be found",
+      "statusCode": 404
+    })
+  }
+  const editBooking = await booking.update({
+    spotId: booking.id,
+    userId: req.user.id,
+    startDate: startDate,
+    endDate: endDate
+  })
+  res.status(200).json(editBooking)
 });
 
-//Edit a Booking
-
-router.put("/:bookingId", requireAuth, async (req, res) => {
-  const userId = req.user.id;
-
-  const { startDate, endDate } = req.body;
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const userBooking = await Booking.findByPk(req.params.bookingId);
-
-  if (!userBooking) {
-    res.status(404);
-    res.json({
-      message: "Booking couldn't be found",
-      statusCode: 404,
-    });
-  }
-
-  if (userBooking.userId !== userId) {
-    res.status(403);
-    res.json({
-      message: "Unauthorized user input",
-      statusCode: 403,
-    });
-  }
-
-
-  if (start >= end) {
-    res.status(403);
-    res.json({
-      message: "Past bookings can't be modified",
-      statusCode: 403,
-    });
-  }
-
-  const alluserBookings = await Booking.findAll({
+router.delete('/:bookingId', requireAuth, async(req, res) => {
+  const booking = await Booking.findByPk(req.params.bookingId, {
     where: {
-      spotId: userBooking.spotId,
-    },
-  });
-
-  for (let i = 0; i < alluserBookings.length; i++) {
-    const oldStart = new Date(alluserBookings[i].dataValues.startDate);
-    const oldEnd = new Date(alluserBookings[i].dataValues.endDate);
-
-    if (
-      oldStart <= start &&
-      start <= oldEnd &&
-      oldStart <= end &&
-      end <= oldEnd
-    ) {
-      res.status(403);
-      res.json({
-        message: "Sorry, this spot is already booked for the specified dates",
-        statusCode: 403,
-        errors: {
-          startDate: "Start date conflicts with an existing booking",
-          endDate: "End date conflicts with an existing booking",
-        },
-      });
+      ownerId: req.user.id
     }
-    if (start >= oldStart && start <= oldEnd) {
-      res.status(403);
-      res.json({
-        message: "Sorry, this spot is already booked for the specified dates",
-        statusCode: 403,
-        errors: {
-          startDate: "Start date conflicts with an existing booking",
-        },
-      });
-    }
-
-
-    if (end >= oldStart && end <= oldEnd) {
-      res.status(403);
-      res.json({
-        message: "Sorry, this spot is already booked for the specified dates",
-        statusCode: 403,
-        errors: {
-          startDate: "Start date conflicts with an existing booking",
-        },
-      });
-    }
-    if (start < oldStart && end > oldEnd) {
-      res.status(403);
-      res.json({
-        message: "Sorry, this spot is already booked for the specified dates",
-        statusCode: 403,
-        errors: {
-          startDate: "Start date conflicts with an existing booking",
-        },
-      });
-    }
-
-  }
-  await userBooking.update({
-    startDate,
-    endDate,
   });
-
-  res.json(userBooking);
-});
-
-// Delete a booking
-
-router.delete("/:bookingId", requireAuth, async (req, res) => {
-  let userId = req.user.id;
-  const userBooking = await Booking.findByPk(req.params.bookingId);
-  if (!userBooking) {
-    res.status(404);
-    res.json({
-      message: "Booking couldn't be found",
-      statusCode: 404,
-    });
+  if (!booking) {
+    return res.status(404).json({
+      "message": "Booking couldn't be found",
+      "statusCode": 404
+    })
   }
+  await booking.destroy();
+  return res.status(200).json({
+    "message": "Successfully deleted",
+    "statusCode": 200
+  })
+})
 
-  const userSpot = await Spot.findOne({
-    where: {
-      id: userBooking.spotId,
-    },
-  });
 
-  if (new Date() > userBooking.startDate) {
-    res.status(403);
-    return res.json({
-      message: "Bookings that have been started can't be deleted",
-      statusCode: 403,
-    });
-  }
-  if (userBooking.userId !== userId && userSpot.ownerId !== userId) {
-    res.status(403);
-    return res.json({
-      message: "Unauthorized user input!",
-      statusCode: 403,
-    });
-  }
-
-  userBooking.destroy();
-  res.json({
-    message: "Successfully deleted",
-    statusCode: 200,
-  });
-});
 
 
 module.exports = router;
