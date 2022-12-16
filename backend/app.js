@@ -1,5 +1,3 @@
-// backend/app.js
-
 const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
@@ -8,23 +6,14 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
-
-// Create a variable called isProduction that will be true if 
-// the environment is in production or not by checking 
-// the environment key in the configuration file (backend/config/index.js):
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
-// Initialize the Express application:
 const app = express();
 
-// Connect the morgan middleware for logging information about requests and responses:
 app.use(morgan('dev'));
 
-// Add the cookie-parser middleware for parsing cookies and the express.json middleware
 app.use(cookieParser());
-
-// JSON bodies of requests with Content-Type of "application/json".
 app.use(express.json());
 
 // Security Middleware
@@ -35,8 +24,8 @@ if (!isProduction) {
 
 // helmet helps set a variety of headers to better secure your app
 app.use(
-  helmet.crossOriginResourcePolicy({ 
-    policy: "cross-origin" 
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
   })
 );
 
@@ -51,11 +40,8 @@ app.use(
   })
 );
 
-
+// backend/app.js
 const routes = require('./routes');
-
-// ...
-
 app.use(routes); // Connect all the routes
 
 // Catch unhandled requests and forward to error handler.
@@ -67,16 +53,27 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
-const { ValidationError } = require('sequelize');
-
-// ...
-
 // Process sequelize errors
+const { ValidationError } = require('sequelize');
+const { UniqueConstraintError } = require('sequelize');
+
+
 app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
     err.errors = err.errors.map((e) => e.message);
     err.title = 'Validation error';
+  }
+  next(err);
+});
+
+app.use((err, _req, _res, next) => {
+  // check if error is a Sequelize error:
+  if (err instanceof UniqueConstraintError) {
+
+    err.title = 'Validation error';
+    err.message = 'Signup validation error'//signup
+    err.status = 403
   }
   next(err);
 });
@@ -92,5 +89,7 @@ app.use((err, _req, res, _next) => {
     stack: isProduction ? null : err.stack
   });
 });
+// ...
+
 
 module.exports = app;
