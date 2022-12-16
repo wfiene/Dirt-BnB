@@ -43,9 +43,9 @@ const SpotDetailIndex = () => {
               <div>{spotDetail.country}</div>
             </div>
           </div>
-          {/* <div>
+          <div>
             <img id="image" onError={(e)=> e.target.src="https://cdn-icons-png.flaticon.com/512/70/70644.png"} src={spotDetail.SpotImages[0].url} alt='img' />
-          </div> */}
+          </div>
           <div id="details">
             <div id="detail-title">
             <div><h2 >Property Hosted By {spotDetail.Owner.firstName}</h2></div>
