@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import * as sessionActions from "../../store/session";
-import "./Navigation.css";
+import { useDispatch } from 'react-redux';
+import { useHistory, NavLink } from 'react-router-dom'
+import * as sessionActions from '../../store/session';
+import CreateSpotModal from '../CreateSpotModal';
 
-function ProfileButton({ user, setLogin, setShowModal, setCreateSpotModal }) {
+import './Navigation.css'
+
+
+function ProfileButton({ user }) {
   const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
   const history = useHistory();
+  const [showMenu, setShowMenu] = useState(false);
+
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
@@ -20,7 +24,7 @@ function ProfileButton({ user, setLogin, setShowModal, setCreateSpotModal }) {
       setShowMenu(false);
     };
 
-    document.addEventListener("click", closeMenu);
+    document.addEventListener('click', closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
@@ -29,87 +33,30 @@ function ProfileButton({ user, setLogin, setShowModal, setCreateSpotModal }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     history.push('/')
-    // alert('Log Out Successful')
   };
 
   return (
     <>
-      <div className='menuDiv'>
-        {user && (
-          <button
-            className='createButton'
-            onClick={() => {
-              setCreateSpotModal(true);
-            }}
-          >
-            Create A Spot
-          </button>
-        )}
-        <button
-          className='menu'
-          onClick={openMenu}
-        >
-          <i
-            className='fa fa-user circle'
-            id='user'
-          ></i>
+      <div className="dropdown-createspot">
+      <div><CreateSpotModal /></div>
+        <button className='icon-drop-menu'onClick={openMenu}>
+          <img id="drop-menu-icon-style" src="https://cdn.pixabay.com/photo/2017/11/07/07/06/menu-2925825_1280.png" alt='' />
         </button>
       </div>
-
-      {showMenu &&
-        (user ? (
-          <ul className='profile-dropdown'>
-            <div>{user.username}</div>
-            <div>{user.email}</div>
-            <div className='buttonDiv'>
-              {/* <button
-                className='createButton'
-                onClick={() => {
-                  setCreateSpotModal(true);
-                }}
-              >
-                Become a Host
-              </button> */}
-              {/* <button onClick={() => {
-              history.push(`/spots/current`)
-             }}>User's Spot's</button> */}
-              {/* </div> */}
-              {/* <div> */}
-              <button
-                className='logout'
-              onClick={ logout }
-              >
-                Log Out
-              </button>
-            </div>
-          </ul>
-        ) : (
-          <div className='logAndsignIn'>
-            <div id="logintext">Log In/Sign Up</div>
-            <div>
-              <button
-                id='login'
-                onClick={() => {
-                  setLogin(true);
-                  setShowModal(true);
-
-                }}
-              >
-                Log In
-              </button>
-
-              <button
-                id='signup'
-                onClick={() => {
-                  setLogin(false);
-                  setShowModal(true);
-                }}
-              >
-                Sign Up
-              </button>
-            </div>
+      {showMenu && (
+        <div className="profile-dropdown">
+          <div className="dropdown-top">
+            <div className="profile-dropdown-username"> Hello, {user.firstName}</div>
+          
+          <div><NavLink to="/current"><button className="button-style">Manage Listings</button></NavLink></div>
+          <div><NavLink to={"/reviews/current"}><button className="button-style">Manage Reviews</button></NavLink></div>
+          <div>
+            <button className="button-style" onClick={logout}>Log Out</button>
           </div>
-        ))}
+          </div>
+        </div>
+      )}
+
     </>
   );
 }

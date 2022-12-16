@@ -1,15 +1,14 @@
+// frontend/src/App.js
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import SignupFormPage from "./components/SignupFormModal";
+import SignupFormPage from "./components/SignupFormPage"
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import AllSpots from "./components/AllSpots/allSpots";
-import AddSpot from "./components/addSpot/addSpot";
-import AllUserSpots from "./components/profilePage/userInfo";
-import OneSpot from "./components/oneSpot/oneSpot";
-import EditSpot from "./components/editSpot/editSpot";
-
+import SpotIndex from "./components/Spots/SpotIndex";
+import SpotDetailIndex from "./components/SpotDetail/SpotDetailIndex";
+import MySpotsIndex from "./components/MySpots/MySpots";
+import MyReviewsIndex from "./components/MyReviews/MyReviewsIndex";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,38 +19,27 @@ function App() {
 
   return (
     <>
-      <div className='app'>
-
-        <Navigation isLoaded={isLoaded} />
-        {isLoaded && (
-          <Switch>
-            <Route
-              exact
-              path='/'
-            >
-              <AllSpots />
-            </Route>
-            <Route
-              exact
-              path='/spots'
-            >
-              <AddSpot />
-            </Route>
-            <Route path='/spots/current'>
-              <AllUserSpots />
-            </Route>
-            <Route path='/spots/:spotId/edit'>
-              <EditSpot />
-            </Route>
-            <Route path='/spots/:spotId'>
-              <OneSpot />
-            </Route>
-            <Route path='/signup'>
-              <SignupFormPage />
-            </Route>
-          </Switch>
-        )}
-      </div>
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && (
+        <Switch>
+          <Route exact path="/">
+            <SpotIndex />
+            {/* <UserSpotsIndex /> */}
+          </Route>
+          <Route exact path="/signup">
+            <SignupFormPage />
+          </Route>
+          <Route exact path="/spots/:spotId"> {/*fixx~!!!*/}
+            <SpotDetailIndex />
+          </Route>
+          <Route exact path="/current">
+            <MySpotsIndex />
+          </Route>
+          <Route exact path="/reviews/current">
+            <MyReviewsIndex />
+          </Route>
+        </Switch>
+      )}
     </>
   );
 }

@@ -1,0 +1,19 @@
+#outer-most-my-spots {
+  margin-top: 50px;
+  margin-left: 50px;
+  display: flex;
+  justify-content: center;
+  /* border: 10px solid red; */
+}
+
+
+/* #my-spots-h1 {
+  width: 100%;
+} */
+
+/* .frame-mySpots {
+
+}
+.my-spots-title-row {
+
+} */

@@ -1,0 +1,38 @@
+
+
+.sign-up-outer-most {
+  margin-left: 450px;
+  width: 50%;
+}
+
+.sign-up-form-content-area {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+}
+
+.sign-up-jin-pink-buttons {
+  width: 100%;
+  background-color: #FF385C;
+  color: white;
+  font-weight: bold;
+  border: 1px solid gray;
+  border-radius: 25px;
+}
+
+#welcome-signup {
+  display: flex;
+}
+
+.sign-up-errors {
+  color: red;
+}
+
+.error-messages {
+  width: 100%;
+}
+
+.input {
+  border-radius: 25px;
+}
