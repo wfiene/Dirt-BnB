@@ -44,7 +44,7 @@ const SpotDetailIndex = () => {
             </div>
           </div>
           <div>
-            <img id="image" src={spotDetail.SpotImages[0].url} alt='img' />
+            {spotDetail.SpotImages && spotDetail.SpotImages[0] && <img id="image" src={spotDetail.SpotImages[0].url} alt='img' />}
           </div>
           <div id="details">
             <div id="detail-title">
