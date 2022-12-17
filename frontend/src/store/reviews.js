@@ -39,7 +39,6 @@ export const getUserReviewsThunk = () => async dispatch => {
   if (response.ok) {
     const reviews = await response.json();
     await dispatch(getReviewsAction(reviews))
-    // console.log('THUNK getuserreviews', reviews)
     return reviews
   }
   return null
@@ -47,11 +46,9 @@ export const getUserReviewsThunk = () => async dispatch => {
 
 export const getSpotReviewsThunk = (spotId) => async dispatch => {
   const response = await fetch(`/api/spots/${spotId}/reviews`);
-  // console.log('THUNKBEFORE', response)
   if (response.ok) {
     const reviews = await response.json();
     await dispatch(getSpotReviewsAction(reviews))
-    // console.log('THUNKAFTER', reviews)
     return reviews
   }
   return null
@@ -66,19 +63,16 @@ export const createReviewThunk = (spotId, spot) => async dispatch => {
   if (response.ok) {
     const review = await response.json()
     await dispatch(createReviewAction(review))
-    // console.log('reviewfromthunk', review)
     return review
   }
   return null
 }
 
 export const deleteReviewThunk = (reviewId) => async dispatch => {
-  // console.log('reviewId from thunk', reviewId)
   const response = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: 'DELETE'
   })
   if (response.ok) {
-    // await response.json()
     
     dispatch(deleteReviewAction(reviewId))
   }
@@ -113,7 +107,6 @@ const reviewReducer = (state = initialState, action) => {
 
     case CREATE_REVIEW:
       newState = { ...state }
-      // newState.spotReviews = {...state.spotReviews}
       newState.spotReviews[action.spot.id] = action.spot
       newState.userReviews = action.spot
       return newState

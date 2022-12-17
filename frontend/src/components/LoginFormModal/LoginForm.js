@@ -1,22 +1,20 @@
-// frontend/src/components/LoginFormPage/index.js
+
 import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
-// import { Redirect } from 'react-router-dom';
+
 import './LoginForm.css'
 
 
 function LoginForm() {
   const dispatch = useDispatch();
-  // const sessionUser = useSelector(state => state.session.user);
+
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
 
-  // if (sessionUser) return (
-  //   <Redirect to="/" />
-  // );
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,16 +31,12 @@ function LoginForm() {
       <h2 className="welcome-message">Welcome to Dirt-BnB</h2>
       <form onSubmit={handleSubmit}>
         <div className='user-input-action-button'>
-
-            {/* <label className='input-prompt-label'> Username or Email </label> */}
             <input className='login-username-email'
               type="text"
               value={credential}
               onChange={(e) => setCredential(e.target.value)}
               placeholder="Username or Email"
               />
-
-            {/* <label className='input-prompt-label'> Password</label> */}
             <input className='login-password'
               type="password"
               value={password}

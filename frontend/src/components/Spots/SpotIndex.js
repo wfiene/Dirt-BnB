@@ -6,20 +6,12 @@ import './SpotIndex.css'
 
 const SpotIndex = () => {
   const spots = useSelector(state => state.spots.allSpots)
-  // const user = useSelector((state) => state.session.user)
-
-  // console.log('spots', spots)
-  // console.log('userrr', user)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(spotGet())
   }, [dispatch])
-
-  // Object.values(allSpots).map(spot => (
-  //   console.log('LOOKHERE', spot)
-  // ))
 
   if (!spots) {
     return null

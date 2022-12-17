@@ -3,16 +3,14 @@ import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { createReviewThunk, getSpotReviewsThunk } from '../../store/reviews';
 import { spotOne } from '../../store/spots';
-// import * as sessionActions from '../../store/session'; //
 import './ReviewForm.css'
 
 
 const ReviewForm = ({ setShowModal }) => {
 
   const dispatch = useDispatch()
-  // const history = useHistory()
   const { spotId } = useParams()
-  // const sessionUser = useSelector(state => state.session.user); //
+
 
 
   const [review, setReview] = useState('');
@@ -43,19 +41,11 @@ const ReviewForm = ({ setShowModal }) => {
 
 
       let createdReview = await dispatch(createReviewThunk(spotId, payload))
-      // .then(() => setShowModal(false))
-      // .catch(async (res) => {
-      //   const data = await res.json();
-      //   if (data && data.errors) setErrors(data.errors)
-      // })
-      // console.log('createdreview', createdReview)
 
       if (createdReview) {
         await dispatch(getSpotReviewsThunk(spotId))
         await dispatch(spotOne(spotId))
         setShowModal(false)
-        
-        // history.push(`/spots/${createdReview.id}`)
         setErrors(false)
       }
     }

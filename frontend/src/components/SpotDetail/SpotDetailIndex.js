@@ -8,14 +8,10 @@ import './SpotDetails.css'
 
 const SpotDetailIndex = () => {
   const spotDetail = useSelector(state => state.spots.singleSpot)
-  // const spot = spotDetail.SpotImages
-  // console.log('spotDetailIndexSpot', spot)
 
   const [isLoaded, setIsLoaded] = useState(false)
 
   const { spotId } = useParams()
-
-  // console.log('spotDetail', spotDetail)
 
   const dispatch = useDispatch()
 
@@ -84,7 +80,7 @@ const SpotDetailIndex = () => {
               <div>{spotDetail.numReviews} review(s)</div>
             </div>
             <div id="review-text">
-              <div><SpotReviewIndex /></div>
+              <div className="review"><SpotReviewIndex /></div>
             </div>
             <div><ReviewFormModal /></div>
           </div>

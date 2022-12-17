@@ -2,9 +2,7 @@ import { csrfFetch } from './csrf';
 
 
 const GET_SPOTS = 'spots/getSpots'
-// const CURRENT_SPOT = 'spots/currentSpot'
 const ONE_SPOT = 'spot/oneSpot'
-// const EDIT_SPOT = 'spot/editSpot'
 const CREATE_SPOT = 'spots/createSpot'
 const REMOVE_SPOT = 'spots/removeSpot'
 const RESET_SPOT = 'spots/resetSpot'
@@ -30,14 +28,6 @@ const addSpot = (spot) => {
     spot
   }
 }
-
-
-// const editSpot = (spot) => {
-//   return {
-//     type: EDIT_SPOT,
-//     spot
-//   }
-// }
 
 const removeSpot = (spotId) => {
   return {
@@ -77,7 +67,6 @@ export const currOwnerSpots = () => async dispatch => {
   const response = await csrfFetch(`/api/spots/current`);
   if (response.ok) {
     const spots = await response.json();
-    // console.log('currentOwnerSpots from Thunk ------> ', spots)
     await dispatch(getSpots(spots))
     return spots
   }
@@ -104,7 +93,6 @@ export const spotEdit = (spot) => async dispatch => {
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify(spot)
   })
-  // console.log('spot from spotedit', spot)
   if(response.ok) {
     const spot = await response.json()
     await dispatch(addSpot(spot))
@@ -118,8 +106,6 @@ export const spotRemove = (spotId) => async dispatch => {
     method: 'DELETE'
   })
   if (response.ok) {
-    // const removedSpot = await response.json()
-    // console.log('removed Spot from thunk', removedSpot)
     dispatch(removeSpot(spotId))
   }
   return null
@@ -136,20 +122,14 @@ const initialState = {
 //---Reducer---//
 const spotReducer = (state = initialState, action) => {
   let newState;
-  // let allSpots = { ...state }
-  // let spots = {}
-  // let singleSpot = {}
-  // let singleSpot = {}
   switch (action.type) {
     case GET_SPOTS:
       let newAllSpots = {}
       newState = { ...state, allSpots: {...state.allSpots} }
-      // console.log('newSTate from Reducer =-====> ', newState)
       action.spots.Spots.forEach(spot => {
         newAllSpots[spot.id] = spot
       })
       newState.allSpots = newAllSpots
-      // console.log('allSpots from Reducer =-====> ', allSpots)
       return newState
 
     
@@ -162,15 +142,11 @@ const spotReducer = (state = initialState, action) => {
       return newState
 
     case ONE_SPOT:
-      newState = { ...state, singleSpot: {...state.singleSpot}} // change to state maybe
+      newState = { ...state, singleSpot: {...state.singleSpot}} 
       
       newState.singleSpot = { ...action.spot }
       return newState
 
-    // case EDIT_SPOT:
-    //   newState = { ...state, singleSpot: {...state.singleSpot}, allSpots: {...state.allSpots}}
-
-    // return
 
     case RESET_SPOT:
       return initialState
@@ -185,13 +161,5 @@ const spotReducer = (state = initialState, action) => {
       return state
   }
 }
-
-// function normalize(data) {
-//   const obj = {}
-//   data.spots.forEach(ele => {
-//     obj[ele.id] = ele
-//   })
-//   return obj
-// }
 
 export default spotReducer

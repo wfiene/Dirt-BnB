@@ -7,7 +7,6 @@ import './Review.css'
 
 const MyReviewsIndex = () => {
   const userReviews = useSelector(state => state.reviews.userReviews)
-  // const newUserReviews = userReviews
   const dispatch = useDispatch()
 
 
@@ -31,9 +30,9 @@ const MyReviewsIndex = () => {
           <div className="review-card" key={review.id}>
             <h2 className="review-spot-name">{review.Spot.name}</h2>
 
-            {/* <div className="address-stars"> */}
+          
             <div>{review.Spot.city}, {review.Spot.state}</div>
-            {/* </div> */}
+          
 
           </div>
         </div>
