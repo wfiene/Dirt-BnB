@@ -18,7 +18,7 @@
   gap: 50px 44.7px;
   /* height: 100vh; */
   list-style: none;
-  justify-items: center;
+  justify-content: space-between;
   /* border: 10px solid red; */
   width: 85%;
 
