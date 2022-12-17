@@ -29,8 +29,6 @@ const EditSpotForm = ({ spot, setShowModal }) => {
   const updateState = (e) => setState(e.target.value);
   const updateCountry = (e) => setCountry(e.target.value);
   const updateName = (e) => setName(e.target.value)
-  // const updateLng = (e) => setLng(e.target.value);
-  // const updateLat = (e) => setLat(e.target.value);
   const updateDescription = (e) => setDescription(e.target.value);
   const updatePrice = (e) => setPrice(e.target.value);
 
@@ -75,23 +73,15 @@ const EditSpotForm = ({ spot, setShowModal }) => {
       }
 
       let updatedSpot = await dispatch(spotEdit(payload))
-      // console.log('updatedSpot', updatedSpot)
 
       if (updatedSpot) {
-        // history.push(`/current`)
         history.push(`/spots/${updatedSpot.id}`)
-
-        // return <Redirect to={`/spots/${updatedSpot.id}`}/>
         setErrors(false)
         setShowModal(false)
       }
     }
   };
 
-  // const handleCancelClick = (e) => {
-  //   e.preventDefault();
-  //   setShowModal(false)
-  // };
 
   return (
     <div className='editspot-form-modal'>
@@ -153,7 +143,6 @@ const EditSpotForm = ({ spot, setShowModal }) => {
               onChange={updatePrice} />
           
           <button className="editspot-pink-buttons" type="submit">Edit</button>
-          {/* <button type="button" onClick={handleCancelClick}>Cancel</button> */}
           <div className='edit-spot-errors'>
             <ul>
               {errors && validationErrors.length > 0 && validationErrors.map(error => (

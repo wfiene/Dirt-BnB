@@ -4,18 +4,17 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
-// import CreateSpotModal from '../CreateSpotModal';
-// import UserSpotsIndex from '../UserSpots/UserSpotsIndex';
 import './Navigation.css';
+
+const openInNewTab = url => {
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
 
-  // const openMenu = () => {
-  //   if (showMenu) return;
-  //   setShowMenu(true);
-  // };
+
 
   useEffect(() => {
     if (!showMenu) return;
@@ -34,10 +33,6 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <div>
         <ProfileButton user={sessionUser} />
-        
-        {/* <CreateSpotModal />
-        <NavLink to="/current">My Spots</NavLink>
-        <NavLink to={"/reviews/current"}>My Reviews</NavLink> */}
       </div>
     );
   } else {
@@ -54,6 +49,11 @@ function Navigation({ isLoaded }) {
       <div>
         <NavLink exact to="/"><img src="https://i.postimg.cc/FHhXQCYf/dirt-bnb.png"
         alt="logo" style={{ margin:'0px', padding:'0px', height: '100px', width: '180px', marginBottom: '10px' }} /></NavLink>
+      </div>
+      <div className='free-div'>
+        <button className='free-button' onClick={() => openInNewTab('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}>
+          Click here for a free rental
+        </button>
       </div>
       <div>
         {isLoaded && sessionLinks}

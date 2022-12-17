@@ -13,14 +13,11 @@ const SpotReviewIndex = () => {
 
 
   const newSpotReview = Object.values(spotReview)
-  // console.log('spotReview1', newSpotReview)
 
   useEffect(() => {
     dispatch(getSpotReviewsThunk(spotId))
     .then(() => setIsLoaded(true))
   }, [dispatch, spotId])
-
-  // console.log('spotReview2', spotReview)
 
 
   if(!newSpotReview) {
@@ -31,9 +28,9 @@ const SpotReviewIndex = () => {
       <>
       <div>
         <ul>
-          <div>
+          <div className="reviews">
           <div >"{review.review}"</div>
-          <div>- {review.User.firstName} {review.User.lastName}</div>
+          <div className="review-user">- {review.User.firstName} {review.User.lastName}</div>
           </div>
         </ul>
       </div>

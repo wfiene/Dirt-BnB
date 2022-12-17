@@ -83,3 +83,15 @@
   background: transparent;
   border: none;
 }
+
+.free-button {
+  background-color: #FF385C;
+  color: white;
+  font-weight: bold;
+  border: 1px solid gray;
+  border-radius: 25px;
+}
+
+.free-div {
+  margin-top: 30px;
+}

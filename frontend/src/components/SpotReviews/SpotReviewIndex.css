@@ -2,3 +2,10 @@
   
 } */
 
+.review-user {
+    font-weight: bold;
+}
+
+.reviews {
+    border-bottom: 1px solid gray;
+}

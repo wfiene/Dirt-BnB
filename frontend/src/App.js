@@ -24,7 +24,6 @@ function App() {
         <Switch>
           <Route exact path="/">
             <SpotIndex />
-            {/* <UserSpotsIndex /> */}
           </Route>
           <Route exact path="/signup">
             <SignupFormPage />

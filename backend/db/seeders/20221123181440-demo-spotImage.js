@@ -46,6 +46,21 @@ module.exports = {
         url: 'https://consequence.net/wp-content/uploads/2021/11/simpsons-house-valued-at-450000-Garretts-Real-Estate-Group.jpg?quality=80',
         preview: true
       },
+      {
+        spotId: 6,
+        url: 'https://www.rollingstone.com/wp-content/uploads/2019/10/StephenKing.jpg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: 'https://i1.wp.com/www.vanishingtexas.net/wp-content/uploads/2020/05/The-Hewitt-House-Granger-Texas-1.jpg?fit=3004%2C1996&ssl=1',
+        preview: true
+      },
+      {
+        spotId: 8,
+        url: 'https://imageio.forbes.com/specials-images/imageserve/62380c71af36178f0f91f59d/0x0.jpg?format=jpg&width=1200',
+        preview: true
+      },
     ], {});
   },
 

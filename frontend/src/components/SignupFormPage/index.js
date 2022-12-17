@@ -37,22 +37,18 @@ function SignupFormPage() {
 
   if (sessionUser) return <Redirect to="/" />
 
-  // console.log('firing')
   const handleSubmit = (e) => {
     e.preventDefault();
     setFrontErrors(true)
-    if (!validationErrors.length) // maybe delete
+    if (!validationErrors.length)
       if (password === confirmPassword) {
         setErrors([]);
         return dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
           .catch(async (res) => {
             const data = await res.json();
             if (data && data.errors) setErrors(data.errors);
-            // console.log('data!!!', data)
-            // if (data && data.message) setErrors([data.message])
           });
       } else {
-        // console.log('errorrrrss', errors)
         setFrontErrors(false)
         return setErrors(['Confirm Password field must be the same as the Password field']);
       }

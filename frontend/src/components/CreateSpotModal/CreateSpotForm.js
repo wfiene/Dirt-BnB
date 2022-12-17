@@ -57,6 +57,7 @@ const CreateSpotForm = ({ setShowModal }) => {
     else if (description.length > 255) errors.push('Description: Character limit(0~255)')
     if (!price) errors.push('Price per night is required')
     else if (price > 999999) errors.push('Too expensive')
+    else if (price < 15) errors.push('Price needs to be $15 or greater')
     if (!url) errors.push('Valid image url required')
 
     setValidationErrors(errors)
@@ -108,48 +109,49 @@ const CreateSpotForm = ({ setShowModal }) => {
           <h2 id="welcome-spot">Create a Listing</h2>
 
           <div className="createspot-content-area">
+            <div>Adress</div>
             <input
               type='text'
               placeholder='Address'
               value={address}
               onChange={updateAddress} />
 
-
+            <div>City</div>
             <input
               type='text'
               placeholder='City'
               value={city}
               onChange={updateCity} />
 
-
+            <div>State</div>
             <input
               type='text'
               placeholder='State'
               value={state}
               onChange={updateState} />
 
-
+            <div>Country</div>
             <input
               type='text'
               placeholder='Country'
               value={country}
               onChange={updateCountry} />
 
-
+            <div>Name</div>
             <input
               type='text'
               placeholder='Name'
               value={name}
               onChange={updateName} />
 
-
+            <div>Description</div>
             <input
               type='text'
               placeholder='Description'
               value={description}
               onChange={updateDescription} />
 
-
+            <div>Price</div>
             <input
               type='number'
               placeholder='Price'
@@ -158,7 +160,7 @@ const CreateSpotForm = ({ setShowModal }) => {
               max='999999'
               onChange={updatePrice} />
 
-
+            <div>Image Url</div>
             <input
               type='url'
               placeholder='Image (URL)'
