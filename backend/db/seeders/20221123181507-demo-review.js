@@ -23,25 +23,25 @@ module.exports = {
       {
         spotId: 1,
         userId: 5,
-        review: 'When we first stumbled upon this flat on AirBnB, it seemed almost too good to be true. There must be a catch! But everything was as perfect as it seemed online.',
-        stars: 5
+        review: 'I think I heard gunshots next door',
+        stars: 2
         },
         {
         spotId: 1,
         userId: 4,
-        review: 'Very tidy and lovely AirBnb apartment equipped with everything you need. A good bed and nice bathroom.',
+        review: 'A home away from home... Love the artwork on the house and the feel of the house',
         stars: 5
         },
         {
         spotId: 2,
         userId: 3,
-        review: 'The place was very clean, modern, had everything we needed to feel at home, and was an easy walk to all the sites we wanted to see.',
+        review: 'The house itself was very nice but I felt an odd energy, and I think I saw a severed hand running around.',
         stars: 5
         },
         {
         spotId: 2,
         userId: 1,
-        review: 'Nicely renovated in a cool neighbourhood close to metro and lots of transit. Comfortable bed and well prepared small kitchen. I appreciated the coffee and tea. Host was super responsive and it was all great.',
+        review: 'Dope mansion, could feel the evil vibes',
         stars: 5
         },
         {
@@ -59,14 +59,14 @@ module.exports = {
         {
         spotId: 4,
         userId: 5,
-        review: 'The apartment is beautifully furnished with particular attention to all the details for the best comfort.',
-        stars: 5
+        review: 'This place is a dump, but at the same time homey and comfortable',
+        stars: 3
         },
         {
         spotId: 4,
         userId: 2,
-        review: 'If you are reading this, just book this amazing Airbnb. Every little detail is perfectly thought out and the space couldn’t be more perfect.',
-        stars: 5
+        review: 'This place is not up to my standard nor my families',
+        stars: 2
         },
         {
         spotId: 5,
