@@ -109,7 +109,7 @@ const CreateSpotForm = ({ setShowModal }) => {
           <h2 id="welcome-spot">Create a Listing</h2>
 
           <div className="createspot-content-area">
-            <div>Adress</div>
+            <div>Address</div>
             <input
               type='text'
               placeholder='Address'
