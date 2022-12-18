@@ -109,63 +109,79 @@ const CreateSpotForm = ({ setShowModal }) => {
           <h2 id="welcome-spot">Create a Listing</h2>
 
           <div className="createspot-content-area">
-            <div>Address</div>
+            <div className='div-text'>Address</div>
             <input
               type='text'
               placeholder='Address'
               value={address}
-              onChange={updateAddress} />
+              onChange={updateAddress} 
+              className="input"
+              />
 
-            <div>City</div>
+            <div className='div-text'>City</div>
             <input
               type='text'
               placeholder='City'
               value={city}
-              onChange={updateCity} />
+              onChange={updateCity} 
+              className="input"
+              />
 
-            <div>State</div>
+            <div className='div-text'>State</div>
             <input
               type='text'
               placeholder='State'
               value={state}
-              onChange={updateState} />
+              onChange={updateState} 
+              className="input"
+              />
 
-            <div>Country</div>
+            <div className='div-text'>Country</div>
             <input
               type='text'
               placeholder='Country'
               value={country}
-              onChange={updateCountry} />
+              onChange={updateCountry} 
+              className="input"
+              />
 
-            <div>Name</div>
+            <div className='div-text'>Name</div>
             <input
               type='text'
               placeholder='Name'
               value={name}
-              onChange={updateName} />
+              onChange={updateName} 
+              className="input"
+              />
 
-            <div>Description</div>
+            <div className='div-text'>Description</div>
             <input
               type='text'
               placeholder='Description'
               value={description}
-              onChange={updateDescription} />
+              onChange={updateDescription} 
+              className="input"
+              />
 
-            <div>Price</div>
+            <div className='div-text'>Price</div>
             <input
               type='number'
               placeholder='Price'
               value={price}
               min='0'
               max='999999'
-              onChange={updatePrice} />
+              onChange={updatePrice} 
+              className="input"
+              />
 
-            <div>Image Url</div>
+            <div className='div-text'>Image Url</div>
             <input
               type='url'
               placeholder='Image (URL)'
               value={url}
-              onChange={updateURL} />
+              onChange={updateURL} 
+              className="input"
+              />
 
 
             <button className="createspot-pink-buttons" type="submit">Create New Spot</button>
