@@ -48,7 +48,7 @@ function Navigation({ isLoaded }) {
     <div className='nav-frame'>
       <div>
         <NavLink exact to="/"><img src="https://i.postimg.cc/FHhXQCYf/dirt-bnb.png"
-        alt="logo" style={{ margin:'0px', padding:'0px', height: '100px', width: '180px', marginBottom: '10px' }} /></NavLink>
+        alt="logo" style={{ margin:'0px', padding:'0px', height: '80px', width: '150px', marginBottom: '10px' }} /></NavLink>
       </div>
       <div className='free-div'>
         <button className='free-button' onClick={() => openInNewTab('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}>
