@@ -40,7 +40,8 @@ function ProfileButton({ user }) {
       <div className="dropdown-createspot">
       <div><CreateSpotModal /></div>
         <button className='icon-drop-menu'onClick={openMenu}>
-          <img id="drop-menu-icon-style" src="https://cdn.pixabay.com/photo/2017/11/07/07/06/menu-2925825_1280.png" alt='' />
+        <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-circle-user"></i>
         </button>
       </div>
       {showMenu && (
@@ -50,6 +51,7 @@ function ProfileButton({ user }) {
           
           <div><NavLink to="/current"><button className="button-style">Manage Listings</button></NavLink></div>
           <div><NavLink to={"/reviews/current"}><button className="button-style">Manage Reviews</button></NavLink></div>
+          <div><NavLink to={"/bookings/current"}><button className="button-style">Manage Bookings</button></NavLink></div>
           <div>
             <button className="button-style" onClick={logout}>Log Out</button>
           </div>

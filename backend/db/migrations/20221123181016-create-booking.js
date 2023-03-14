@@ -45,12 +45,6 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
-    // await queryInterface.addIndex(
-    //   'Bookings',
-    //   ['spotId', 'startDate'],
-    //   ['spotId', 'endDate'],
-    //   {unique: true}
-    // )
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Bookings"
