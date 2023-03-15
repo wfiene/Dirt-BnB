@@ -13,23 +13,32 @@ const openInNewTab = url => {
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
-
-
-
+  
+  
+  
   useEffect(() => {
     if (!showMenu) return;
-
+    
     const closeMenu = () => {
       setShowMenu(false);
     };
-
+    
     document.addEventListener('click', closeMenu);
   
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
-
+  console.log('-----------session user----------', sessionUser)
+  
   let sessionLinks;
-  if (sessionUser) {
+  if (sessionUser && Object.keys(sessionUser).length === 0){
+    sessionLinks = (
+      <div className='login-sign-up-row'>
+        <LoginFormModal />
+        <NavLink to="/signup">Sign Up</NavLink>
+      </div>
+    )
+  }
+  else if (sessionUser) {
     sessionLinks = (
       <div>
         <ProfileButton user={sessionUser} />
