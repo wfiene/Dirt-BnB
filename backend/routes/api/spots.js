@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 
 // Create a Booking from a Spot based on the Spot's id
 router.post('/:spotId/bookings', requireAuth, async (req, res) => {
-  const { startDate, endDate } = req.body
+  const { spotId, userId, startDate, endDate } = req.body
   const spot = await Spot.findByPk(req.params.spotId)
 
   if (!spot) {
@@ -39,8 +39,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     })
   }
   const newBooking = await Booking.create({
-    spotId: spot.id,
-    userId: req.user.id,
+    spotId,
+    userId,
     startDate: startDate,
     endDate: endDate
   })
