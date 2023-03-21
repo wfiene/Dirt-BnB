@@ -29,12 +29,13 @@ const MyBookingsIndex = () => {
       <div id='mb-main'>
         <div id='mb-frame'>
           {Object.values(userBookings).map(booking => (
-            <div key={booking.id} id='mb-card'>
-              <div id='mb-img-container'>
+            <>
+            {booking && booking.id && <div id='mb-card'>
+              {booking && booking.id && <div id='mb-img-container'>
                 {/* <NavLink to={`/spots/${booking.Spot.id}`} > */}
-                {booking.Spot && booking.Spot.previewImage && <img id='mb-card-img' onError={(e) => e.target.src= "https://cdn-icons-png.flaticon.com/512/70/70644.png"} src={booking.Spot.previewImage} />}
+                {booking && booking.Spot && booking.Spot.previewImage && <img id='mb-card-img' onError={(e) => e.target.src= "https://cdn-icons-png.flaticon.com/512/70/70644.png"} src={booking.Spot.previewImage} />}
                 {/* </NavLink> */}
-                <div id='mb-info'>
+                {booking && booking.id && <div id='mb-info'>
                   <div id='mb-name-place'>
                   {booking.Spot && booking.Spot.name &&<div id='mb-spot-name'>{booking.Spot.name}</div>}
                   {booking.Spot && booking.Spot.city && booking.Spot.country &&<div id='mb-city-country'>{booking.Spot.city}, {booking.Spot.country}</div>}
@@ -44,13 +45,14 @@ const MyBookingsIndex = () => {
                     <div id='bookingNum'>BOOKING #</div>
                     <div>183KI{booking.id}</div>
                   </div> */}
-                </div>
-              </div>
-              <div id='mb-edit-del'>
+                </div>}
+              </div>}
+              {booking && booking.id && <div id='mb-edit-del'>
                 <EditBookingModal id='mb-edit' bookings={booking} /> |
                 <button id='mb-delete' onClick={() =>dispatch(deleteBookingThunk(booking.id))}>delete</button>
-              </div>
-            </div>
+              </div>}
+            </div>}
+            </>
           ))}
         </div>
       </div>
