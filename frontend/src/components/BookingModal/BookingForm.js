@@ -127,10 +127,9 @@ const BookingForm = ({ spot }) => {
                   <div>{startDate.toDateString()} to {endDate.toDateString()}</div>
                   <div>{!showEditCal ?
                     <button className='change-confirm' onClick={() => setShowEditCal(true)}>change</button> :
-                    <button className='change-confirm' onClick={() => setShowEditCal(false)} >confirm</button>}
+                    <button className='change-confirm' onClick={() => setShowEditCal(false)}>confirm</button>}
                   </div>
                 </div>
-                {errorMessage.length && <h3 className='red-h3'>This spot is already booked for these date[s]</h3>}
                 {showEditCal && (
                   <div className='bcm-booking-dates'>
                     <div className='booking-checkin'>
@@ -172,7 +171,10 @@ const BookingForm = ({ spot }) => {
                 <div>Your Total</div>
                 <div>${numDays(startDate, endDate) * spotPrice + 150 + 313}</div>
               </div>
-
+              <div>
+              {errorMessage && <h3 className='red-h3'>This spot is already booked for these date[s]</h3>}
+              </div>
+              {/* {errorMessage.length && <h3 className='red-h3'>This spot is already booked for these date[s]</h3>} */}
               <form onSubmit={handleSubmit}>
                 <button id='bcm-bookspot' type='submit'>Book</button>
               </form>
