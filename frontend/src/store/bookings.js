@@ -85,7 +85,7 @@ export const newBookingThunk = (payload) => async dispatch => {
     await dispatch(actionNewBooking(newBooking))
     return newBooking
   }
-  return;
+  return response;
 }
 
 // Update and return an existing booking. /api/bookings/:bookingId
