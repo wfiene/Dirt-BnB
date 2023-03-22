@@ -15,12 +15,15 @@ const BookingForm = ({ spot }) => {
   const sessionUser = useSelector(state => state.session.user)
   const spotPrice = useSelector(state => state.spots.singleSpot.price)
   const currentSpot = useSelector(state => state.spots.singleSpot)
-  console.log('currspot', currentSpot.address)
+  const userBookingsObj = useSelector(state => state.bookings)
+  const userBookings = userBookingsObj ? Object.values(userBookingsObj) : null
+  console.log('----------user bookings-----------', userBookings)
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
   const [showModal, setShowModal] = useState(false);
   const [showEditCal, setShowEditCal] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("");
 
 
 
@@ -30,6 +33,39 @@ const BookingForm = ({ spot }) => {
     return Math.ceil(difInTime / (1000 * 3600 * 24));
   }
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+    
+  //   // check if there are any existing bookings for the selected dates
+  //   const existingBookings = userBookings?.filter((booking) => {
+  //     const bookingStart = new Date(booking.startDate);
+  //     const bookingEnd = new Date(booking.endDate);
+  //     return (
+  //       (bookingStart <= startDate && startDate <= bookingEnd) ||
+  //       (bookingStart <= endDate && endDate <= bookingEnd) ||
+  //       (startDate <= bookingStart && bookingEnd <= endDate)
+  //     );
+  //   });
+  
+  //   if (existingBookings.length > 0) {
+  //     alert("This spot is already booked for the selected dates");
+  //     return;
+  //   }
+  
+  //   const payload = {
+  //     spotId: spot.id,
+  //     userId: sessionUser.id,
+  //     startDate,
+  //     endDate,
+  //   };
+  //   const data = await dispatch(newBookingThunk(payload));
+  //   if (data) {
+  //     setShowModal(false);
+  //   } else {
+  //     setShowModal(true);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const payload = {
@@ -38,13 +74,18 @@ const BookingForm = ({ spot }) => {
       startDate,
       endDate
     }
-    const data = await dispatch(newBookingThunk(payload))
-    if (data) {
-      setShowModal(false)
-    } else {
-      setShowModal(true)
+    try {
+      const data = await dispatch(newBookingThunk(payload));
+      if (data) {
+        setShowModal(false);
+      } else {
+        setShowModal(true);
+      }
+    } catch (err) {
+      setErrorMessage("Error: This spot is already booked for the selected dates.");
     }
   }
+  
 
   return (
     <div>
@@ -89,6 +130,7 @@ const BookingForm = ({ spot }) => {
                     <button className='change-confirm' onClick={() => setShowEditCal(false)} >confirm</button>}
                   </div>
                 </div>
+                {errorMessage.length && <h3>This spot is already booked for this date[s]</h3>}
                 {showEditCal && (
                   <div className='bcm-booking-dates'>
                     <div className='booking-checkin'>
