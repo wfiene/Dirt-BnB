@@ -130,7 +130,7 @@ const BookingForm = ({ spot }) => {
                     <button className='change-confirm' onClick={() => setShowEditCal(false)} >confirm</button>}
                   </div>
                 </div>
-                {errorMessage.length && <h3>This spot is already booked for this date[s]</h3>}
+                {errorMessage.length && <h3 className='red-h3'>This spot is already booked for these date[s]</h3>}
                 {showEditCal && (
                   <div className='bcm-booking-dates'>
                     <div className='booking-checkin'>
