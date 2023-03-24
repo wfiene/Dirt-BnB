@@ -1,6 +1,6 @@
 import DatePicker from 'react-datepicker'
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from '../../context/Modal';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
@@ -26,7 +26,9 @@ const BookingForm = ({ spot }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
 
-
+  useEffect(() => {
+    setErrorMessage('')
+  }, [showEditCal, startDate, endDate])
 
   const numDays = (startDate, endDate) => {
     let difInTime = endDate.getTime() - startDate.getTime();
