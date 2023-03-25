@@ -12,7 +12,7 @@ import BookingForm from "../BookingModal/BookingForm"
 const SpotDetailIndex = () => {
   const spotDetail = useSelector(state => state.spots.singleSpot)
   const spotBookings = useSelector(state => state)
-  console.log('spotBookings', spotBookings)
+  // console.log('spotBookings', spotBookings)
   // const spot = spotDetail.SpotImages
   // console.log('spotDetailIndexSpot', spot)
 

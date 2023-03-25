@@ -11,7 +11,7 @@ const MyBookingsIndex = () => {
   const dispatch = useDispatch()
 
   const userBookings = useSelector(state => state.bookings)
-  console.log('userBookings', userBookings)
+  // console.log('userBookings', userBookings)
 
 
   const dateMod = (date) => {
