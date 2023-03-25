@@ -27,7 +27,7 @@ function Navigation({ isLoaded }) {
   
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
-  console.log('-----------session user----------', sessionUser)
+  // console.log('-----------session user----------', sessionUser)
   
   let sessionLinks;
   if (sessionUser && Object.keys(sessionUser).length === 0){

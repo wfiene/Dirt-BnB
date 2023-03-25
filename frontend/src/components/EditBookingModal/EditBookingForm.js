@@ -17,7 +17,7 @@ const EditBookingForm = ({ setShowModal, bookings }) => {
   const [showEditCal, setShowEditCal] = useState(false)
 
   const sessionUser = useSelector(state => state.session.user)
-  console.log('edit bookings', bookings)
+  // console.log('edit bookings', bookings)
 
   const numDays = (startDate, endDate) => {
     let difInTime = endDate.getTime() - startDate.getTime();
